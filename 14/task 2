@@ -1,0 +1,43 @@
+class IPAddress:
+    def __init__(self, address):
+        self.address = address
+    
+    def __str__(self):
+        return self.address
+    
+    def print(self):
+        print(self.address)
+
+
+class IPAddressChecked(IPAddress):
+    def __init__(self, address, correct):
+        super().__init__(address)
+        self.correct = correct
+    
+    def __str__(self):
+        if self.correct:
+            return super().__str__() + " - Correct"
+        else:
+            return super().__str__() + " - Not Correct"
+    
+    def print(self):
+        super().print()
+        if self.correct:
+            print("Correct")
+        else:
+            print("Not Correct")
+
+
+# Test code
+address1 = IPAddress("1.2.3.4")
+address2 = IPAddressChecked("999.29.29.29", False)
+address3 = IPAddressChecked("199.29.29.29", True)
+
+print(address1)
+address1.print()
+
+print(address2)
+address2.print()
+
+print(address3)
+address3.print()
