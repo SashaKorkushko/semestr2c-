@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+const int SIZE = 3;
+
+int main() {
+    int matrix[SIZE][SIZE];
+
+    
+    std::srand(std::time(nullptr));
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            matrix[i][j] = std::rand() % 100;  
+        }
+    }
+
+    
+    std::cout << "Елементи на головній діагоналі: ";
+    for (int i = 0; i < SIZE; i++) {
+        std::cout << matrix[i][i] << " ";
+    }
+    std::cout << std::endl;
+
+   
+    std::cout << "Елементи на побічній діагоналі: ";
+    for (int i = 0; i < SIZE; i++) {
+        std::cout << matrix[i][SIZE - 1 - i] << " ";
+    }
+    std::cout << std::endl;
+
+    
+    int evenCount = 0;
+    int oddCount = 0;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (matrix[i][j] % 2 == 0) {
+                evenCount++;
+            } else {
+                oddCount++;
+            }
+        }
+    }
+
+    std::cout << "Кількість парних елементів: " << evenCount << std::endl;
+    std::cout << "Кількість непарних елементів: " << oddCount << std::endl;
+
+    return 0;
+}
