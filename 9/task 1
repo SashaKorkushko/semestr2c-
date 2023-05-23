@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+int main() {
+    std::string values;
+    std::getline(std::cin, values);
+
+    std::string template_str;
+    std::getline(std::cin, template_str);
+
+    
+    std::unordered_map<std::string, std::string> valueMap;
+    std::string::size_type pos = 0;
+    std::string::size_type nextPos = 0;
+    while ((nextPos = values.find(',', pos)) != std::string::npos) {
+        std::string pair = values.substr(pos, nextPos - pos);
+        std::string::size_type separatorPos = pair.find('=');
+        if (separatorPos != std::string::npos) {
+            std::string name = pair.substr(0, separatorPos);
+            std::string value = pair.substr(separatorPos + 1);
+            valueMap[name] = value;
+        }
+        pos = nextPos + 1;
+    }
+
+    
+    std::string output;
+    pos = 0;
+    while ((nextPos = template_str.find('[', pos)) != std::string::npos) {
+        output += template_str.substr(pos, nextPos - pos);
+        std::string::size_type endPos = template_str.find(']', nextPos);
+        if (endPos != std::string::npos) {
+            std::string placeholder = template_str.substr(nextPos + 1, endPos - nextPos - 1);
+            if (valueMap.count(placeholder) > 0) {
+                output += valueMap[placeholder];
+            } else {
+                output += '[' + placeholder + ']';
+            }
+            pos = endPos + 1;
+        } else {
+            break; 
+        }
+    }
+    output += template_str.substr(pos);
+
+    
+    std::cout << output << std::endl;
+
+    return 0;
+}
