@@ -1,0 +1,95 @@
+class GymMember:
+    def __init__(self, member_id, name):
+        self.member_id = member_id
+        self.name = name
+        self.subscription_months = 0
+
+class GymMembershipManager:
+    def __init__(self):
+        self.members = []
+
+    def create_member(self, member_id, name):
+        if self._is_valid_member_id(member_id):
+            member = GymMember(member_id, name)
+            self.members.append(member)
+        else:
+            print("Cannot perform this operation. Invalid member ID.")
+
+    def delete_member(self, member_id):
+        if member_id == 0:
+            print("Cannot perform this operation. Invalid member ID.")
+            return
+
+        for member in self.members:
+            if member.member_id == member_id:
+                self.members.remove(member)
+                return
+
+        print("Cannot perform this operation. Member not found.")
+
+    def extend_membership(self, member_id, months):
+        if member_id == 0:
+            print("Cannot perform this operation. Invalid member ID.")
+            return
+
+        for member in self.members:
+            if member.member_id == member_id:
+                member.subscription_months += months
+                return
+
+        print("Cannot perform this operation. Member not found.")
+
+    def cancel_membership(self, member_id):
+        if member_id == 0:
+            print("Cannot perform this operation. Invalid member ID.")
+            return
+
+        for member in self.members:
+            if member.member_id == member_id:
+                member.subscription_months = 0
+                return
+
+        print("Cannot perform this operation. Member not found.")
+
+    def _is_valid_member_id(self, member_id):
+        if member_id == 0:
+            return False
+
+        for member in self.members:
+            if member.member_id == member_id:
+                return False
+
+        return True
+
+    def print_members(self):
+        for member in self.members:
+            print(f"Member {member.member_id}: {member.name}, subscription valid for {member.subscription_months} months")
+
+# Main program
+manager = GymMembershipManager()
+
+while True:
+    command = input("Enter a command: ").split()
+
+    if command[0] == "create":
+        member_id = int(command[1])
+        name = ' '.join(command[2:])
+        manager.create_member(member_id, name)
+
+    elif command[0] == "delete":
+        member_id = int(command[1])
+        manager.delete_member(member_id)
+
+    elif command[0] == "extend":
+        member_id = int(command[1])
+        months = int(command[2])
+        manager.extend_membership(member_id, months)
+
+    elif command[0] == "cancel":
+        member_id = int(command[1])
+        manager.cancel_membership(member_id)
+
+    elif command[0] == "quit":
+        break
+
+    manager.print_members()
