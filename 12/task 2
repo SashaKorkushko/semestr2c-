@@ -1,0 +1,113 @@
+class Flight:
+    def __init__(self, flight_id, capacity):
+        self.flight_id = flight_id
+        self.capacity = capacity
+        self.reservations = 0
+
+    def add_reservations(self, n):
+        if self.reservations + n <= self.capacity:
+            self.reservations += n
+            print(f"Added {n} reservations to Flight {self.flight_id}.")
+        else:
+            print("Cannot perform this operation. Insufficient capacity.")
+
+    def cancel_reservations(self, n):
+        if self.reservations - n >= 0:
+            self.reservations -= n
+            print(f"Canceled {n} reservations from Flight {self.flight_id}.")
+        else:
+            print("Cannot perform this operation. Invalid number of reservations to cancel.")
+
+    def get_id(self):
+        return self.flight_id
+
+
+class BookingSystem:
+    def __init__(self):
+        self.flights = {}
+
+    def create_flight(self, flight_id, capacity):
+        if flight_id in self.flights:
+            print("Cannot perform this operation. Flight ID already exists.")
+            return
+
+        if len(self.flights) >= 10:
+            print("Cannot perform this operation. Maximum number of flights reached.")
+            return
+
+        if flight_id <= 0:
+            print("Cannot perform this operation. Invalid flight ID.")
+            return
+
+        flight = Flight(flight_id, capacity)
+        self.flights[flight_id] = flight
+        print(f"Created Flight {flight_id} with capacity {capacity}.")
+
+    def delete_flight(self, flight_id):
+        if flight_id not in self.flights:
+            print("Cannot perform this operation. Flight ID does not exist.")
+            return
+
+        del self.flights[flight_id]
+        print(f"Deleted Flight {flight_id}.")
+
+    def execute_command(self, command):
+        parts = command.split()
+
+        if parts[0] == "create":
+            if len(parts) != 3:
+                print("Invalid command format. Usage: create [id] [cap]")
+                return
+
+            flight_id = int(parts[1])
+            capacity = int(parts[2])
+            self.create_flight(flight_id, capacity)
+
+        elif parts[0] == "delete":
+            if len(parts) != 2:
+                print("Invalid command format. Usage: delete [id]")
+                return
+
+            flight_id = int(parts[1])
+            self.delete_flight(flight_id)
+
+        elif parts[0] == "add":
+            if len(parts) != 3:
+                print("Invalid command format. Usage: add [id] [n]")
+                return
+
+            flight_id = int(parts[1])
+            n = int(parts[2])
+            if flight_id in self.flights:
+                self.flights[flight_id].add_reservations(n)
+            else:
+                print("Cannot perform this operation. Flight ID does not exist.")
+
+        elif parts[0] == "cancel":
+            if len(parts) != 3:
+                print("Invalid command format. Usage: cancel [id] [n]")
+                return
+
+            flight_id = int(parts[1])
+            n = int(parts[2])
+            if flight_id in self.flights:
+                self.flights[flight_id].cancel_reservations(n)
+            else:
+                print("Cannot perform this operation. Flight ID does not exist.")
+
+        elif parts[0] == "quit":
+            print("Exiting the program.")
+            return True
+
+        else:
+            print("Invalid command.")
+
+        return False
+
+
+# Example usage
+booking_system = BookingSystem()
+while True:
+    command = input("Enter a command: ")
+    if booking_system.execute_command(command):
+        break
