@@ -1,0 +1,50 @@
+#include <iostream>
+
+class Tree {
+public:
+    virtual void draw() const = 0;
+};
+
+class PineTree : public Tree {
+public:
+    void draw() const override {
+        std::cout << "/\\" << std::endl;
+        std::cout << "//\\\\" << std::endl;
+    }
+};
+
+class ChristmasTree : public Tree {
+public:
+    void draw() const override {
+        std::cout << "/\\" << std::endl;
+        std::cout << "/**\\" << std::endl;
+    }
+};
+
+class OakTree : public Tree {
+public:
+    void draw() const override {
+        std::cout << "/\\" << std::endl;
+        std::cout << "/++\\" << std::endl;
+    }
+};
+
+int main() {
+    Tree* treeArray[3]; 
+
+    PineTree pineTree;
+    ChristmasTree christmasTree;
+    OakTree oakTree;
+
+    treeArray[0] = &pineTree;
+    treeArray[1] = &christmasTree;
+    treeArray[2] = &oakTree;
+
+    for (int i = 0; i < 3; i++) {
+        std::cout << "Drawing " << i + 1 << ":" << std::endl;
+        treeArray[i]->draw();
+        std::cout << std::endl;
+    }
+
+    return 0;
+}
