@@ -1,0 +1,41 @@
+#include <iostream>
+#include <random>
+
+int main() {
+    int size;
+    std::cout << "Enter the size of the array: ";
+    std::cin >> size;
+
+    
+    double* array = new double[size];
+
+    
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(-2.0, 2.0);
+
+    
+    for (int i = 0; i < size; i++) {
+        array[i] = dis(gen);
+    }
+
+    int positiveCount = 0;
+    int negativeCount = 0;
+
+   
+    for (int i = 0; i < size; i++) {
+        if (array[i] > 0) {
+            positiveCount++;
+        } else if (array[i] < 0) {
+            negativeCount++;
+        }
+    }
+
+    std::cout << "Number of positive numbers: " << positiveCount << std::endl;
+    std::cout << "Number of negative numbers: " << negativeCount << std::endl;
+
+    
+    delete[] array;
+
+    return 0;
+}
