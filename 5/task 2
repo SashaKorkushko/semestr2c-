@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+const int SIZE = 3;
+
+int main() {
+    
+    std::srand(std::time(0));
+
+    
+    int** array = new int*[SIZE];
+    for (int i = 0; i < SIZE; i++) {
+        array[i] = new int[SIZE];
+    }
+
+    
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            array[i][j] = std::rand() % 10;  
+        }
+    }
+
+    
+    std::cout << "Елементи на головній діагоналі:" << std::endl;
+    for (int i = 0; i < SIZE; i++) {
+        std::cout << array[i][i] << " ";
+    }
+    std::cout << std::endl;
+
+    
+    std::cout << "Елементи на побічній діагоналі:" << std::endl;
+    for (int i = 0; i < SIZE; i++) {
+        std::cout << array[i][SIZE - 1 - i] << " ";
+    }
+    std::cout << std::endl;
+
+    
+    int evenCount = 0;
+    int oddCount = 0;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (array[i][j] % 2 == 0) {
+                evenCount++;
+            } else {
+                oddCount++;
+            }
+        }
+    }
+
+    
+    std::cout << "Кількість парних елементів: " << evenCount << std::endl;
+    std::cout << "Кількість непарних елементів: " << oddCount << std::endl;
+
+    
+    for (int i = 0; i < SIZE; i++) {
+        delete[] array[i];
+    }
+    delete[] array;
+
+    return 0;
+}
