@@ -1,0 +1,81 @@
+#include <iostream>
+#include <random>
+
+const int SIZE = 5;
+
+void fillArray(int** arr, int size) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(1, 100);
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            arr[i][j] = dis(gen);
+        }
+    }
+}
+
+void printArray(int** arr, int size) {
+    std::cout << "Array elements:" << std::endl;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            std::cout << arr[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void printMainDiagonal(int** arr, int size) {
+    std::cout << "Elements on the main diagonal:" << std::endl;
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i][i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+void printSecondaryDiagonal(int** arr, int size) {
+    std::cout << "Elements on the secondary diagonal:" << std::endl;
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i][size - i - 1] << " ";
+    }
+    std::cout << std::endl;
+}
+
+void countEvenOddElements(int** arr, int size, int& evenCount, int& oddCount) {
+    evenCount = 0;
+    oddCount = 0;
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (arr[i][j] % 2 == 0) {
+                evenCount++;
+            } else {
+                oddCount++;
+            }
+        }
+    }
+}
+
+int main() {
+    int** array = new int*[SIZE];
+    for (int i = 0; i < SIZE; i++) {
+        array[i] = new int[SIZE];
+    }
+
+    fillArray(array, SIZE);
+    printArray(array, SIZE);
+    printMainDiagonal(array, SIZE);
+    printSecondaryDiagonal(array, SIZE);
+
+    int evenCount, oddCount;
+    countEvenOddElements(array, SIZE, evenCount, oddCount);
+    std::cout << "Number of even elements: " << evenCount << std::endl;
+    std::cout << "Number of odd elements: " << oddCount << std::endl;
+
+    for (int i = 0; i < SIZE; i++) {
+        delete[] array[i];
+    }
+    delete[] array;
+
+    return 0;
+}
