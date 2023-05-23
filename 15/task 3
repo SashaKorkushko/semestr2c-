@@ -1,0 +1,83 @@
+#include <iostream>
+using namespace std;
+
+const int DivideByZero = 111;
+
+float internaldiv(float arg1, float arg2) {
+    if (arg2 == 0)
+        throw DivideByZero;
+    return arg1 / arg2;
+}
+
+float div(float arg1, float arg2) {
+    return internaldiv(arg1, arg2);
+}
+
+int main(void) {
+    float r, a, b;
+    while (cin >> a) {
+        cin >> b;
+        try {
+            r = div(a, b);
+            cout << r << endl;
+        } catch (int error) {
+            if (error == DivideByZero) {
+                cout << "Your input is not valid. You can't divide by zero." << endl;
+            } else {
+                cout << "An error occurred." << endl;
+            }
+        }
+    }
+    return 0;
+}
+In this version, the div function is modified to remove the reference parameter res and the Boolean return type. Instead, it directly calls internaldiv and throws an exception if the divisor (arg2) is zero.
+
+The internaldiv function remains the same and throws the DivideByZero constant when a division by zero is detected.
+
+In the main function, a try-catch block is added to catch the exception thrown by div. If a DivideByZero exception is caught, it prints the corresponding error message. Otherwise, it displays a generic error message.
+
+Version 2: Throwing Exception for Improper Arguments
+
+cpp
+Copy code
+#include <iostream>
+using namespace std;
+
+const int DivideByZero = 111;
+const int InvalidArgument = 222;
+
+float internaldiv(float arg1, float arg2) {
+    if (arg2 == 0)
+        throw DivideByZero;
+    if (arg1 < 0 || arg2 < 0)
+        throw InvalidArgument;
+    return arg1 / arg2;
+}
+
+float div(float arg1, float arg2) {
+    if (arg2 == 0)
+        throw DivideByZero;
+    if (arg1 < 0 || arg2 < 0)
+        throw InvalidArgument;
+    return internaldiv(arg1, arg2);
+}
+
+int main(void) {
+    float r, a, b;
+    while (cin >> a) {
+        cin >> b;
+        try {
+            r = div(a, b);
+            cout << r << endl;
+        } catch (int error) {
+            if (error == DivideByZero) {
+                cout << "Your input is not valid. You can't divide by zero." << endl;
+            } else if (error == InvalidArgument) {
+                cout << "Invalid argument. Both arguments should be non-negative." << endl;
+            } else {
+                cout << "An error occurred." << endl;
+            }
+        }
+    }
+    return 0;
+}
